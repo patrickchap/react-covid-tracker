@@ -1,12 +1,7 @@
-import React from "react";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  ButtonGroup,
-  Button,
-} from "@material-ui/core";
+import React, { useState } from "react";
+import { FormControl, Select, MenuItem, Button } from "@material-ui/core";
 import "./Header.css";
+import { useHistory } from "react-router-dom";
 
 interface mapstate {
   location: {
@@ -14,6 +9,39 @@ interface mapstate {
     lng: number;
   };
   zoom: number;
+}
+
+interface countryCall {
+  updated?: number;
+  country?: string;
+  countryInfo?: {
+    _id: number;
+    iso2: string;
+    iso3: string;
+    lat: number;
+    long: number;
+    flag: string;
+  };
+  cases?: number;
+  todayCases?: number;
+  deaths?: number;
+  todayDeaths?: number;
+  recovered?: number;
+  todayRecovered?: number;
+  active?: number;
+  critical?: number;
+  casesPerOneMillion?: number;
+  deathsPerOneMillion?: number;
+  tests?: number;
+  testsPerOneMillion?: number;
+  population?: number;
+  continent?: number;
+  oneCasePerPeople?: number;
+  oneDeathPerPeople?: number;
+  oneTestPerPeople?: number;
+  activePerOneMillion?: number;
+  recoveredPerOneMillion?: number;
+  criticalPerOneMillion?: number;
 }
 
 interface props {
@@ -30,6 +58,7 @@ const Header: React.FC<props> = ({
   countries,
   handleCountry,
   currentCountry,
+  setMapState,
 }) => {
   const changeCountry = async (
     e: React.ChangeEvent<{
@@ -38,9 +67,37 @@ const Header: React.FC<props> = ({
     }>,
     handleCountry: (country: string) => void
   ) => {
-    console.log(e.target.value);
-    handleCountry(String(e.target.value));
+    getCountries(e.target.value);
   };
+
+  const getCountries = async (country: any) => {
+    if (country === "Worldwide") {
+      setMapState({
+        location: {
+          lat: 25.185059,
+          lng: -38.202698,
+        },
+        zoom: 2,
+      });
+      return;
+    }
+
+    fetch(`https://disease.sh/v3/covid-19/countries/${country}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setMapState({
+          location: {
+            lat: data.countryInfo.lat,
+            lng: data.countryInfo.long,
+          },
+          zoom: 4,
+        });
+      });
+  };
+
+  let history = useHistory();
+  const [mapViewIsTrue, setMapViewIsTrue] = useState(true);
 
   return (
     <div className="header">
@@ -55,7 +112,10 @@ const Header: React.FC<props> = ({
             id="select"
             value={currentCountry}
             variant="outlined"
-            onChange={(e) => changeCountry(e, handleCountry)}
+            onChange={(e) => {
+              changeCountry(e, handleCountry);
+              handleCountry(String(e.target.value));
+            }}
           >
             <MenuItem value={"Worldwide"}>{"Worldwide"}</MenuItem>
             {typeof countries !== "string" &&
@@ -70,7 +130,18 @@ const Header: React.FC<props> = ({
 
       <div className="header_option--button">
         {/* switch between Map View and Graph View */}
-        <Button variant="outlined">Graph View</Button>
+        <Button
+          key="btn"
+          variant="outlined"
+          onClick={() => {
+            // console.log(history.location);
+            mapViewIsTrue === true ? history.push("/graph") : history.push("/");
+            setMapViewIsTrue(!mapViewIsTrue);
+            // history.push("/graph");
+          }}
+        >
+          {mapViewIsTrue === true ? "Show Graph" : "Show Map"}
+        </Button>
         {/* <ButtonGroup variant="outlined">
           <Button >Map</Button>
           <Button>Graph</Button>

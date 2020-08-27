@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import InfoBar from "./components/InfoBar/InfoBar";
-// import Map from "./components/Map/Map";
 import MapLeaflet from "./components/Map/MapLeaflet";
-import Table from "./components/Table/Table";
+import Graph from "./components/Graph/Graph";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 interface InfoBoxCall {
   updated?: number;
@@ -138,6 +138,7 @@ const App: React.FC = () => {
         .then((response) => response.json())
         .then((data) => {
           const boxInfo: InfoBoxCall = data;
+
           const cases: InfoNumbers = {
             totalCases: boxInfo.cases,
             dailyCases: boxInfo.todayCases,
@@ -159,69 +160,78 @@ const App: React.FC = () => {
   }, [currentCountry]);
 
   return (
-    <div className="app">
-      <div className="app_body">
-        <Header
-          countries={countries}
-          handleCountry={handleCountry}
-          currentCountry={currentCountry}
-          setMapState={setMapState}
-        />
-
-        <div className="app_infoBar">
-          {cases && (
-            <InfoBar
-              boxName="Covid Cases"
-              today={cases.dailyCases ? cases.dailyCases : 0}
-              total={cases.totalCases ? cases.totalCases : 0}
-              data={"cases"}
-              setShowData={handleSetShowData}
-              setInfoBarClicked={setInfoBarClicked}
-              infoBarClicked={infoBarClicked}
-            />
-          )}
-          {recoveries && (
-            <InfoBar
-              boxName="Covid Recoveries"
-              today={recoveries.dailyCases ? recoveries.dailyCases : 0}
-              total={recoveries.totalCases ? recoveries.totalCases : 0}
-              data={"recovered"}
-              setShowData={handleSetShowData}
-              setInfoBarClicked={setInfoBarClicked}
-              infoBarClicked={infoBarClicked}
-            />
-          )}
-
-          {deaths && (
-            <InfoBar
-              boxName="Covid Deaths"
-              today={deaths.dailyCases ? deaths.dailyCases : 0}
-              total={deaths.totalCases ? deaths.totalCases : 0}
-              data={"deaths"}
-              setShowData={handleSetShowData}
-              setInfoBarClicked={setInfoBarClicked}
-              infoBarClicked={infoBarClicked}
-            />
-          )}
-        </div>
-        <div className="app_graph">
-          {/* <Map /> */}
-          <MapLeaflet
-            countriesMap={countriesMap}
-            data={showData}
-            mapState={mapState}
+    <Router>
+      <div className="app">
+        <div className="app_body">
+          <Header
+            countries={countries}
+            handleCountry={handleCountry}
+            currentCountry={currentCountry}
+            setMapState={setMapState}
           />
-        </div>
 
-        {/* map of cases with circles representing cases */}
+          <div className="app_infoBar">
+            {cases && (
+              <InfoBar
+                boxName="Covid Cases"
+                today={cases.dailyCases ? cases.dailyCases : 0}
+                total={cases.totalCases ? cases.totalCases : 0}
+                data={"cases"}
+                setShowData={handleSetShowData}
+                setInfoBarClicked={setInfoBarClicked}
+                infoBarClicked={infoBarClicked}
+              />
+            )}
+            {recoveries && (
+              <InfoBar
+                boxName="Covid Recoveries"
+                today={recoveries.dailyCases ? recoveries.dailyCases : 0}
+                total={recoveries.totalCases ? recoveries.totalCases : 0}
+                data={"recovered"}
+                setShowData={handleSetShowData}
+                setInfoBarClicked={setInfoBarClicked}
+                infoBarClicked={infoBarClicked}
+              />
+            )}
+
+            {deaths && (
+              <InfoBar
+                boxName="Covid Deaths"
+                today={deaths.dailyCases ? deaths.dailyCases : 0}
+                total={deaths.totalCases ? deaths.totalCases : 0}
+                data={"deaths"}
+                setShowData={handleSetShowData}
+                setInfoBarClicked={setInfoBarClicked}
+                infoBarClicked={infoBarClicked}
+              />
+            )}
+          </div>
+          <div className="app_graph">
+            {/* <Map /> */}
+            <Switch>
+              <Route path="/graph">
+                <Graph currentCountry={currentCountry} />
+              </Route>
+              <Route path="/">
+                <MapLeaflet
+                  countriesMap={countriesMap}
+                  data={showData}
+                  mapState={mapState}
+                />
+              </Route>
+            </Switch>
+          </div>
+
+          {/* map of cases with circles representing cases */}
+        </div>
+        {/* <div className="app_right"> */}
+        {/* pass country name and sorted cases as prop */}
+        {/* <Table /> */}
+        {/* table of country and cases */}
+        {/* line graph of data */}
+        {/* </div> */}
       </div>
-      {/* <div className="app_right"> */}
-      {/* pass country name and sorted cases as prop */}
-      {/* <Table /> */}
-      {/* table of country and cases */}
-      {/* line graph of data */}
-      {/* </div> */}
-    </div>
+    </Router>
   );
 };
 

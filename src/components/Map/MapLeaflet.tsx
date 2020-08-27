@@ -68,12 +68,12 @@ function hasKey<O>(obj: O, key: keyof any): key is keyof O {
 const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
   return (
     <div className="map">
-      <LeafletMap center={mapState.location} zoom={2}>
+      <LeafletMap center={mapState.location} zoom={mapState.zoom}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        {countriesMap.map((country) => {
+        {countriesMap.map((country, indx) => {
           let c: countryCall = country;
           if (hasKey(c, data)) {
             let r: any = c[data];
@@ -85,6 +85,7 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
               c.recovered &&
               c.deaths && (
                 <Circle
+                  key={indx}
                   center={[c.countryInfo.lat, c.countryInfo.long]}
                   radius={Math.sqrt(r) * 500}
                   color={color}
