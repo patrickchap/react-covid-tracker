@@ -27,6 +27,7 @@ const Table: React.FC<props> = ({
   setInfoBarClicked,
 }) => {
   const [data, setData] = useState<ChartData<any>>();
+  const [isData, setIsData] = useState(true);
   const formatData = (data: Number[], labels: String[], type: string) => {
     const retData = {
       labels: labels,
@@ -72,10 +73,21 @@ const Table: React.FC<props> = ({
       });
   };
 
+  // check response code
   const fetchCountry = (url: string) => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
+        if (
+          data.message ===
+          "Country not found or doesn't have any historical data"
+        ) {
+          setIsData(!isData);
+          return;
+        } else {
+          setIsData(true);
+        }
+        console.log("data >>>>> Aruba ", data);
         // let chartdata = [];
         let chartData = [];
         let chartLabels = [];
@@ -115,10 +127,15 @@ const Table: React.FC<props> = ({
     // </div>
     // style={{ width: "500px", height: "500px", backgroundColor: "White" }}
     <div className="graph">
-      <Line
-        data={data}
-        options={{ responsive: true, maintainAspectRatio: true }}
-      />
+      {isData && (
+        <Line
+          data={data}
+          options={{ responsive: true, maintainAspectRatio: true }}
+        />
+      )}
+      {!isData && (
+        <div>Country not found or doesn't have any historical data</div>
+      )}
     </div>
   );
 };
