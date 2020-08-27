@@ -85,7 +85,7 @@ const App: React.FC = () => {
   const [recoveries, setRecoveries] = useState<InfoNumbers>();
   const [countriesMap, setCountriesMap] = useState([]);
   const [showData, setShowData] = useState<string>("cases");
-  const [infoBarClicked, setInfoBarClicked] = useState("Covid Cases");
+  const [infoBarClicked, setInfoBarClicked] = useState("Cases");
   const [mapState, setMapState] = useState<mapstate>({
     location: {
       lat: 25.185059,
@@ -93,12 +93,6 @@ const App: React.FC = () => {
     },
     zoom: 2,
   });
-
-  // const location = {
-  //   lat: 25.185059,
-  //   lng: -38.202698,
-  // };
-  //need country and deaths sorted for table
 
   const handleCountry = (country: string) => {
     setCurrentCountry(country);
@@ -173,7 +167,7 @@ const App: React.FC = () => {
           <div className="app_infoBar">
             {cases && (
               <InfoBar
-                boxName="Covid Cases"
+                boxName="Cases"
                 today={cases.dailyCases ? cases.dailyCases : 0}
                 total={cases.totalCases ? cases.totalCases : 0}
                 data={"cases"}
@@ -184,7 +178,7 @@ const App: React.FC = () => {
             )}
             {recoveries && (
               <InfoBar
-                boxName="Covid Recoveries"
+                boxName="Recovered"
                 today={recoveries.dailyCases ? recoveries.dailyCases : 0}
                 total={recoveries.totalCases ? recoveries.totalCases : 0}
                 data={"recovered"}
@@ -196,7 +190,7 @@ const App: React.FC = () => {
 
             {deaths && (
               <InfoBar
-                boxName="Covid Deaths"
+                boxName="Deaths"
                 today={deaths.dailyCases ? deaths.dailyCases : 0}
                 total={deaths.totalCases ? deaths.totalCases : 0}
                 data={"deaths"}
@@ -206,30 +200,28 @@ const App: React.FC = () => {
               />
             )}
           </div>
-          <div className="app_graph">
+          <div className="app_bottom">
             {/* <Map /> */}
             <Switch>
               <Route path="/graph">
-                <Graph currentCountry={currentCountry} />
+                <Graph
+                  currentCountry={currentCountry}
+                  infoBarClicked={infoBarClicked}
+                  setInfoBarClicked={setInfoBarClicked}
+                />
               </Route>
               <Route path="/">
-                <MapLeaflet
-                  countriesMap={countriesMap}
-                  data={showData}
-                  mapState={mapState}
-                />
+                <div className="app_map">
+                  <MapLeaflet
+                    countriesMap={countriesMap}
+                    data={showData}
+                    mapState={mapState}
+                  />
+                </div>
               </Route>
             </Switch>
           </div>
-
-          {/* map of cases with circles representing cases */}
         </div>
-        {/* <div className="app_right"> */}
-        {/* pass country name and sorted cases as prop */}
-        {/* <Table /> */}
-        {/* table of country and cases */}
-        {/* line graph of data */}
-        {/* </div> */}
       </div>
     </Router>
   );

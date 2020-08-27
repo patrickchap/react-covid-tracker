@@ -13,15 +13,28 @@
   /* align-content: center; */
   flex: 1;
   justify-content: center;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .root {
   min-height: 100%;
 }
 
-.app_graph {
-  background-color: white;
-  height: 450px;
+.app_bottom {
+  /* background-color: white;
+  padding: 10px;
+  height: 350px;
   margin-left: 5px;
   margin-right: 5px;
+  border-radius: 10px; */
+}
+
+.app_map {
+  background-color: white;
+  padding: 10px;
+  height: 350px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 10px;
 }

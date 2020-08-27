@@ -1,0 +1,20 @@
+.chartjs-render-monitor {
+  width: 63% !important;
+  height: 100% !important;
+  margin: 0 auto;
+  /* background-color: white; */
+  /* border-radius: 10px; */
+}
+
+.graph {
+  position: relative;
+  background-color: white;
+  border-radius: 8px;
+  /* height: 350px !important; */
+  width: 100% !important;
+
+  /* height: 450px; */
+  margin: 0 auto;
+
+  /* align-content: center; */
+}

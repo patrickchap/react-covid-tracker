@@ -84,12 +84,14 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
               c.cases &&
               c.recovered &&
               c.deaths && (
-                <Circle
-                  key={indx}
-                  center={[c.countryInfo.lat, c.countryInfo.long]}
-                  radius={Math.sqrt(r) * 500}
-                  color={color}
-                ></Circle>
+                <div className="mapleaflet">
+                  <Circle
+                    key={indx}
+                    center={[c.countryInfo.lat, c.countryInfo.long]}
+                    radius={Math.sqrt(r) * 500}
+                    color={color}
+                  ></Circle>
+                </div>
               )
             );
           }
