@@ -1,0 +1,20 @@
+.infoBar {
+  flex: 1;
+  margin: 5px 5px;
+}
+
+h5 {
+  color: rgb(109, 106, 106);
+}
+
+.infoBar-clicked {
+  flex: 1;
+  margin: 5px 5px;
+  border-top: 5px solid #eb1a1a;
+}
+
+.infoBar-clicked-green {
+  flex: 1;
+  margin: 5px 5px;
+  border-top: 5px solid #1aff00;
+}

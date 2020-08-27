@@ -1,0 +1,27 @@
+.app_infoBar {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.app {
+  /* background-color: rgb(196, 191, 191); */
+  height: 100%;
+  display: flex;
+}
+.app_body {
+  /* align-content: center; */
+  flex: 1;
+  justify-content: center;
+}
+
+.root {
+  min-height: 100%;
+}
+
+.app_graph {
+  background-color: white;
+  height: 450px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
