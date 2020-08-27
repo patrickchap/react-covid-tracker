@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Graph.css";
-import { Line } from "react-chartjs-2";
+import { Line, ChartData } from "react-chartjs-2";
 
 interface props {
   currentCountry: string;
+  infoBarClicked: string;
+  setInfoBarClicked: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface dailyCases {
@@ -11,42 +13,114 @@ interface dailyCases {
   value: number;
 }
 
-const fetchAll = (url: string) => {
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(Object.keys(data?.cases));
-
-      for (let [key, value] of Object.entries(data?.cases)) {
-        console.log(key + " " + value);
-      }
-      // console.log("graph data ass >>>>> ", data);
-      // console.log(data?.cases);
-    });
+const color = {
+  Red: "rgba(235, 26, 26,0.2)",
+  RedOutline: "rgba(235, 26, 26,1)",
+  Green: "rgba(26, 255, 0,0.2)",
+  GreenOutline: "rgba(26, 255, 0,1)",
+  // Deaths: "rgba(235, 26, 26,0.2)"
 };
 
-const fetchCountry = (url: string) => {
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("graph data  country >>>>> ", data);
-      console.log(data?.timeline.cases);
-    });
-};
+const Table: React.FC<props> = ({
+  currentCountry,
+  infoBarClicked,
+  setInfoBarClicked,
+}) => {
+  const [data, setData] = useState<ChartData<any>>();
+  const formatData = (data: Number[], labels: String[], type: string) => {
+    const retData = {
+      labels: labels,
+      datasets: [
+        {
+          label: `Daily ${type}`,
+          data: data,
+          fill: true,
+          backgroundColor:
+            infoBarClicked === "Recovered" ? color.Green : color.Red,
+          borderColor:
+            infoBarClicked === "Recovered"
+              ? color.GreenOutline
+              : color.RedOutline,
+        },
+      ],
+    };
+    return retData;
+  };
 
-const Table: React.FC<props> = ({ currentCountry }) => {
+  const fetchAll = (url: string) => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        // let chartdata = [];
+        let lastValue;
+        let chartData: Number[] = [];
+        let chartLabels: String[] = [];
+        console.log(`info bar >>>> ${infoBarClicked}`);
+        console.log(data);
+        let type: string = infoBarClicked.toLocaleLowerCase();
+        for (let [key, value] of Object.entries(data[type])) {
+          if (lastValue) {
+            chartData.push(Number(value) - lastValue);
+            chartLabels.push(key);
+            // chartdata.push({ key: key, value: Number(value) - lastValue });
+          }
+          lastValue = Number(value);
+        }
+        setData(formatData(chartData, chartLabels, infoBarClicked));
+        // console.log("charData >>> ", chartdata);
+        // return formatData(chartData, chartLabels);
+      });
+  };
+
+  const fetchCountry = (url: string) => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        // let chartdata = [];
+        let chartData = [];
+        let chartLabels = [];
+        let lastValue;
+        for (let [key, value] of Object.entries(
+          data.timeline[infoBarClicked.toLocaleLowerCase()]
+        )) {
+          if (lastValue) {
+            chartData.push(Number(value) - lastValue);
+            chartLabels.push(key);
+            // chartdata.push({ key: key, value: Number(value) - lastValue });
+          }
+          lastValue = Number(value);
+        }
+        // console.log("formated data >>> ", formatData(chartData, chartLabels));
+        setData(formatData(chartData, chartLabels, infoBarClicked));
+        // return formatData(chartData, chartLabels);
+      });
+  };
+
   useEffect(() => {
     const getInfoData = async () => {
       currentCountry === "Worldwide"
-        ? fetchAll("https://disease.sh/v3/covid-19/historical/all?lastdays=30")
+        ? fetchAll("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
         : fetchCountry(
-            `https://disease.sh/v3/covid-19/historical/${currentCountry}`
+            `https://disease.sh/v3/covid-19/historical/${currentCountry}?lastdays=120`
           );
     };
-    getInfoData();
-  }, [currentCountry]);
 
-  return <div>Graph</div>;
+    getInfoData();
+  }, [currentCountry, infoBarClicked]);
+
+  return (
+    // <div>
+    //   Graph
+    //   <Line data={data} />
+    // </div>
+    // style={{ width: "500px", height: "500px", backgroundColor: "White" }}
+    <div className="graph">
+      <Line
+        data={data}
+        options={{ responsive: true, maintainAspectRatio: true }}
+      />
+    </div>
+  );
 };
 
 export default Table;

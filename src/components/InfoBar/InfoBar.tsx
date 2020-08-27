@@ -35,7 +35,7 @@ const InfoBar: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (infoBarClicked === boxName && boxName === "Covid Recoveries") {
+    if (infoBarClicked === boxName && boxName === "Recovered") {
       console.log("setGreen");
       setClassname("infoBar-clicked-green");
     } else if (infoBarClicked === boxName) {
@@ -54,9 +54,9 @@ const InfoBar: React.FC<Props> = ({
       }}
     >
       <CardContent>
-        <h3>{boxName}</h3>
-        <h5>{"Daily Cases: " + today}</h5>
-        <h4>{"Total Cases: " + total}</h4>
+        <h3>{`${boxName}`}</h3>
+        <h5>{`Daily ${boxName}: ${today}`}</h5>
+        <h4>{`Total ${boxName} ${total}`}</h4>
       </CardContent>
     </Card>
   );
