@@ -28,6 +28,7 @@ const Table: React.FC<props> = ({
 }) => {
   const [data, setData] = useState<ChartData<any>>();
   const [isData, setIsData] = useState(true);
+
   const formatData = (data: Number[], labels: String[], type: string) => {
     const retData = {
       labels: labels,
@@ -56,8 +57,8 @@ const Table: React.FC<props> = ({
         let lastValue;
         let chartData: Number[] = [];
         let chartLabels: String[] = [];
-        console.log(`info bar >>>> ${infoBarClicked}`);
-        console.log(data);
+        // console.log(`info bar >>>> ${infoBarClicked}`);
+        // console.log(data);
         let type: string = infoBarClicked.toLocaleLowerCase();
         for (let [key, value] of Object.entries(data[type])) {
           if (lastValue) {
@@ -74,38 +75,61 @@ const Table: React.FC<props> = ({
   };
 
   // check response code
-  const fetchCountry = (url: string) => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        if (
-          data.message ===
-          "Country not found or doesn't have any historical data"
-        ) {
-          setIsData(!isData);
-          return;
-        } else {
-          setIsData(true);
+  const fetchCountry = async (url: string) => {
+    const response = await fetch(url);
+    console.log("Response >>>> ", response);
+    if (response.ok) {
+      const data = await response.json();
+      let chartData = [];
+      let chartLabels = [];
+      let lastValue;
+      for (let [key, value] of Object.entries(
+        data.timeline[infoBarClicked.toLocaleLowerCase()]
+      )) {
+        if (lastValue) {
+          chartData.push(Number(value) - lastValue);
+          chartLabels.push(key);
         }
-        console.log("data >>>>> Aruba ", data);
-        // let chartdata = [];
-        let chartData = [];
-        let chartLabels = [];
-        let lastValue;
-        for (let [key, value] of Object.entries(
-          data.timeline[infoBarClicked.toLocaleLowerCase()]
-        )) {
-          if (lastValue) {
-            chartData.push(Number(value) - lastValue);
-            chartLabels.push(key);
-            // chartdata.push({ key: key, value: Number(value) - lastValue });
-          }
-          lastValue = Number(value);
-        }
-        // console.log("formated data >>> ", formatData(chartData, chartLabels));
-        setData(formatData(chartData, chartLabels, infoBarClicked));
-        // return formatData(chartData, chartLabels);
-      });
+        lastValue = Number(value);
+      }
+      setData(formatData(chartData, chartLabels, infoBarClicked));
+      setIsData(true);
+    } else {
+      setData({});
+      setIsData(false);
+      return Promise.reject("404");
+    }
+    // fetch(url)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     if (
+    //       data.message ===
+    //       "Country not found or doesn't have any historical data"
+    //     ) {
+    //       setIsData(!isData);
+    //       return;
+    //     } else {
+    //       setIsData(true);
+    //     }
+    //     console.log("data >>>>> Aruba ", data);
+    //     // let chartdata = [];
+    //     let chartData = [];
+    //     let chartLabels = [];
+    //     let lastValue;
+    //     for (let [key, value] of Object.entries(
+    //       data.timeline[infoBarClicked.toLocaleLowerCase()]
+    //     )) {
+    //       if (lastValue) {
+    //         chartData.push(Number(value) - lastValue);
+    //         chartLabels.push(key);
+    //         // chartdata.push({ key: key, value: Number(value) - lastValue });
+    //       }
+    //       lastValue = Number(value);
+    //     }
+    //     // console.log("formated data >>> ", formatData(chartData, chartLabels));
+    //     setData(formatData(chartData, chartLabels, infoBarClicked));
+    //     // return formatData(chartData, chartLabels);
+    //   });
   };
 
   useEffect(() => {
