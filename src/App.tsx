@@ -86,6 +86,7 @@ const App: React.FC = () => {
   const [countriesMap, setCountriesMap] = useState([]);
   const [showData, setShowData] = useState<string>("cases");
   const [infoBarClicked, setInfoBarClicked] = useState("Cases");
+  // const [mapViewIsTrue, setMapViewIsTrue] = useState();
   const [mapState, setMapState] = useState<mapstate>({
     location: {
       lat: 25.185059,

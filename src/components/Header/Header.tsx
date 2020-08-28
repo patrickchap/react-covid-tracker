@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl, Select, MenuItem, Button } from "@material-ui/core";
 import "./Header.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 interface mapstate {
   location: {
@@ -9,39 +9,6 @@ interface mapstate {
     lng: number;
   };
   zoom: number;
-}
-
-interface countryCall {
-  updated?: number;
-  country?: string;
-  countryInfo?: {
-    _id: number;
-    iso2: string;
-    iso3: string;
-    lat: number;
-    long: number;
-    flag: string;
-  };
-  cases?: number;
-  todayCases?: number;
-  deaths?: number;
-  todayDeaths?: number;
-  recovered?: number;
-  todayRecovered?: number;
-  active?: number;
-  critical?: number;
-  casesPerOneMillion?: number;
-  deathsPerOneMillion?: number;
-  tests?: number;
-  testsPerOneMillion?: number;
-  population?: number;
-  continent?: number;
-  oneCasePerPeople?: number;
-  oneDeathPerPeople?: number;
-  oneTestPerPeople?: number;
-  activePerOneMillion?: number;
-  recoveredPerOneMillion?: number;
-  criticalPerOneMillion?: number;
 }
 
 interface props {
@@ -60,12 +27,21 @@ const Header: React.FC<props> = ({
   currentCountry,
   setMapState,
 }) => {
+  let location = useLocation();
+  let history = useHistory();
+  const [mapViewIsTrue, setMapViewIsTrue] = useState<boolean>(true);
+
+  useEffect(() => {
+    location.pathname === "/graph"
+      ? setMapViewIsTrue(false)
+      : setMapViewIsTrue(true);
+  }, [location]);
+
   const changeCountry = async (
     e: React.ChangeEvent<{
       name?: string | undefined;
       value: unknown;
-    }>,
-    handleCountry: (country: string) => void
+    }>
   ) => {
     getCountries(e.target.value);
   };
@@ -96,9 +72,6 @@ const Header: React.FC<props> = ({
       });
   };
 
-  let history = useHistory();
-  const [mapViewIsTrue, setMapViewIsTrue] = useState(true);
-
   return (
     <div className="header">
       <div className="header_lable">
@@ -113,7 +86,7 @@ const Header: React.FC<props> = ({
             value={currentCountry}
             variant="outlined"
             onChange={(e) => {
-              changeCountry(e, handleCountry);
+              changeCountry(e);
               handleCountry(String(e.target.value));
             }}
           >
@@ -134,18 +107,12 @@ const Header: React.FC<props> = ({
           key="btn"
           variant="outlined"
           onClick={() => {
-            // console.log(history.location);
             mapViewIsTrue === true ? history.push("/graph") : history.push("/");
             setMapViewIsTrue(!mapViewIsTrue);
-            // history.push("/graph");
           }}
         >
           {mapViewIsTrue === true ? "Show Graph" : "Show Map"}
         </Button>
-        {/* <ButtonGroup variant="outlined">
-          <Button >Map</Button>
-          <Button>Graph</Button>
-        </ButtonGroup> */}
       </div>
     </div>
   );

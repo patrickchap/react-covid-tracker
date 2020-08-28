@@ -70,6 +70,9 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
     <div className="map">
       <LeafletMap center={mapState.location} zoom={mapState.zoom}>
         <TileLayer
+          // attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+          // url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
