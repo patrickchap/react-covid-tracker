@@ -77,7 +77,6 @@ const Table: React.FC<props> = ({
   // check response code
   const fetchCountry = async (url: string) => {
     const response = await fetch(url);
-    console.log("Response >>>> ", response);
     if (response.ok) {
       const data = await response.json();
       let chartData = [];

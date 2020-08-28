@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl, Select, MenuItem, Button } from "@material-ui/core";
 import "./Header.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 interface mapstate {
   location: {
@@ -60,12 +60,14 @@ const Header: React.FC<props> = ({
   currentCountry,
   setMapState,
 }) => {
+  let history = useHistory();
+  const [mapViewIsTrue, setMapViewIsTrue] = useState(true);
+
   const changeCountry = async (
     e: React.ChangeEvent<{
       name?: string | undefined;
       value: unknown;
-    }>,
-    handleCountry: (country: string) => void
+    }>
   ) => {
     getCountries(e.target.value);
   };
@@ -96,8 +98,13 @@ const Header: React.FC<props> = ({
       });
   };
 
-  let history = useHistory();
-  const [mapViewIsTrue, setMapViewIsTrue] = useState(true);
+  const location = useLocation();
+  useEffect(() => {
+    console.log(location.pathname);
+    location.pathname === "/graph"
+      ? setMapViewIsTrue(false)
+      : setMapViewIsTrue(true);
+  }, [location]);
 
   return (
     <div className="header">
@@ -113,7 +120,7 @@ const Header: React.FC<props> = ({
             value={currentCountry}
             variant="outlined"
             onChange={(e) => {
-              changeCountry(e, handleCountry);
+              changeCountry(e);
               handleCountry(String(e.target.value));
             }}
           >
