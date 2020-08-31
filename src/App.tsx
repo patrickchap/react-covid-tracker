@@ -83,6 +83,8 @@ const App: React.FC = () => {
   const [cases, setCases] = useState<InfoNumbers>();
   const [deaths, setDeaths] = useState<InfoNumbers>();
   const [recoveries, setRecoveries] = useState<InfoNumbers>();
+  // const [activeCases, setactiveCases] = useState<InfoNumbers>();
+
   const [countriesMap, setCountriesMap] = useState([]);
   const [showData, setShowData] = useState<string>("cases");
   const [infoBarClicked, setInfoBarClicked] = useState("Cases");

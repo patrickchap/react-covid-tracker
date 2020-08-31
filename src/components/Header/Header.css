@@ -6,4 +6,12 @@
 
 .MuiButtonBase-root {
   height: 56px;
+  color: red !important;
+  background-color: rgb(65, 63, 63) !important;
+}
+
+.MuiSelect-root {
+  color: red !important;
+  background-color: rgb(65, 63, 63) !important;
+  outline: none !important;
 }

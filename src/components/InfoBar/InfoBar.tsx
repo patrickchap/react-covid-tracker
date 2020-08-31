@@ -30,13 +30,15 @@ const InfoBar: React.FC<Props> = ({
   const [classname, setClassname] = useState("infoBar");
 
   const handleClassNameChange = () => {
-    setClassname("infoBar-clicked");
+    boxName === "Recovered"
+      ? setClassname("infoBar-clicked-green")
+      : setClassname("infoBar-clicked");
     setInfoBarClicked(boxName);
   };
 
   useEffect(() => {
+    // console.log(infoBarClicked, " ", boxName);
     if (infoBarClicked === boxName && boxName === "Recovered") {
-      console.log("setGreen");
       setClassname("infoBar-clicked-green");
     } else if (infoBarClicked === boxName) {
       setClassname("infoBar-clicked");

@@ -5,5 +5,10 @@
 }
 .map .leaflet-container {
   height: 100%;
+
   /* max-height: none; */
+}
+
+.country {
+  color: black;
 }

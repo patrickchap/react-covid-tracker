@@ -1,6 +1,6 @@
 import React from "react";
 import "./MapLeaflet.css";
-import { Map as LeafletMap, TileLayer, Circle } from "react-leaflet";
+import { Map as LeafletMap, TileLayer, Circle, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 // type options = {
@@ -42,10 +42,10 @@ interface countryCall {
   criticalPerOneMillion?: number;
 }
 
-const location = {
-  lat: 25.185059,
-  lng: -38.202698,
-};
+// const location = {
+//   lat: 25.185059,
+//   lng: -38.202698,
+// };
 interface mapstate {
   location: {
     lat: number;
@@ -70,8 +70,11 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
     <div className="map">
       <LeafletMap center={mapState.location} zoom={mapState.zoom}>
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+          url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+
+          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          // attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         {countriesMap.map((country, indx) => {
           let c: countryCall = country;
@@ -90,18 +93,21 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
                     center={[c.countryInfo.lat, c.countryInfo.long]}
                     radius={Math.sqrt(r) * 500}
                     color={color}
-                  ></Circle>
+                  >
+                    <Popup key={indx + countriesMap.length}>
+                      <h4 className="country">{c.country}</h4>
+                      <div>{`Cases: ${c.cases}`}</div>
+                      <div>{`Deaths: ${c.deaths}`}</div>
+                      <div>{`Recovered: ${c.recovered}`}</div>
+                    </Popup>
+                  </Circle>
                 </div>
               )
             );
+          } else {
+            return -1;
           }
         })}
-
-        {/* <Circle
-          center={[location.lat, location.lng]}
-          radius={990000}
-          color={"#eb1a1a"}
-        ></Circle> */}
       </LeafletMap>
     </div>
   );
