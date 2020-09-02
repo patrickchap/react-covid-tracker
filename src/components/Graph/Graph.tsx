@@ -13,6 +13,8 @@ interface dailyCases {
   value: number;
 }
 
+const options = { responsive: true, maintainAspectRatio: true };
+
 const color = {
   Red: "rgba(235, 26, 26,0.2)",
   RedOutline: "rgba(235, 26, 26,1)",
@@ -113,12 +115,7 @@ const Table: React.FC<props> = ({
 
   return (
     <div className="graph">
-      {isData && (
-        <Line
-          data={data}
-          options={{ responsive: true, maintainAspectRatio: true }}
-        />
-      )}
+      {isData && <Line data={data} options={options} />}
       {!isData && (
         <div>Country not found or doesn't have any historical data</div>
       )}

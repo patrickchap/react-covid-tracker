@@ -1,0 +1,48 @@
+.app_middle__btn {
+  margin-right: 1px !important;
+}
+
+.MuiButtonBase-root {
+  height: 56px;
+  color: red !important;
+  background-color: rgb(65, 63, 63) !important;
+}
+
+.MuiSelect-root {
+  color: red !important;
+  background-color: rgb(65, 63, 63) !important;
+  outline: none !important;
+}
+
+.mappButtonBar__right {
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.mappButtonBar {
+  display: flex;
+}
+
+.mappButtonBar__left__firstBtn {
+  border-top-left-radius: 3px !important;
+  border-bottom-left-radius: 3px !important;
+}
+
+.mappButtonBar__left__lastBtn {
+  border-top-right-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
+}
+
+.root {
+  background-color: black !important;
+  border-radius: 3px !important;
+}
+
+.PrivateTabIndicator-colorPrimary-2 {
+  background-color: red !important;
+  width: 156px !important;
+  margin-left: 2px !important;
+  /* align-items: center; */
+}
+
+/* MuiPaper-root root MuiPaper-elevation1 MuiPaper-rounded */

@@ -6,6 +6,10 @@ import InfoBar from "./components/InfoBar/InfoBar";
 import MapLeaflet from "./components/Map/MapLeaflet";
 import Graph from "./components/Graph/Graph";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import MappButtonBar from "./components/MappButtonBar/MappButtonBar";
+import BarChart from "./components/BarChart/BarChart";
+// import { Button } from "@chakra-ui/core";
 
 interface InfoBoxCall {
   updated?: number;
@@ -158,6 +162,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="app">
+        {/* <h2 style={{ marginLeft: "15px" }}>Covid-19-Tracker</h2> */}
         <div className="app_body">
           <Header
             countries={countries}
@@ -202,6 +207,15 @@ const App: React.FC = () => {
               />
             )}
           </div>
+          <div className="app__middle">
+            {/* for show .... */}
+            <MappButtonBar
+              countries={countries}
+              handleCountry={handleCountry}
+              currentCountry={currentCountry}
+              setMapState={setMapState}
+            />
+          </div>
           <div className="app_bottom">
             {/* <Map /> */}
             <Switch>
@@ -210,6 +224,15 @@ const App: React.FC = () => {
                   currentCountry={currentCountry}
                   infoBarClicked={infoBarClicked}
                   setInfoBarClicked={setInfoBarClicked}
+                />
+              </Route>
+              <Route path="/bar">
+                <BarChart
+                  totalCases={cases?.totalCases ? cases.totalCases : 0}
+                  totalRecoveries={
+                    recoveries?.totalCases ? recoveries.totalCases : 0
+                  }
+                  totalDeaths={deaths?.totalCases ? deaths.totalCases : 0}
                 />
               </Route>
               <Route path="/">

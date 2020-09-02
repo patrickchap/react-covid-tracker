@@ -8,6 +8,7 @@
   /* background-color: rgb(196, 191, 191); */
   height: 100%;
   display: flex;
+  flex-flow: column;
 }
 .app_body {
   /* align-content: center; */
@@ -33,9 +34,15 @@
 .app_map {
   /* background-color: white; */
   padding: 10px;
-  height: 350px;
+  height: 380px;
+  /* height: 20em; */
+  flex: 1;
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 10px;
   background-color: rgb(65, 63, 63) !important;
+}
+
+.app__middle {
+  margin-left: 5px;
 }

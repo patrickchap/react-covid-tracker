@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FormControl, Select, MenuItem, Button } from "@material-ui/core";
-import "./Header.css";
+import "./MappButtonBar.css";
+import { Button, FormControl, Select, MenuItem } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 interface mapstate {
   location: {
@@ -9,39 +12,6 @@ interface mapstate {
     lng: number;
   };
   zoom: number;
-}
-
-interface countryCall {
-  updated?: number;
-  country?: string;
-  countryInfo?: {
-    _id: number;
-    iso2: string;
-    iso3: string;
-    lat: number;
-    long: number;
-    flag: string;
-  };
-  cases?: number;
-  todayCases?: number;
-  deaths?: number;
-  todayDeaths?: number;
-  recovered?: number;
-  todayRecovered?: number;
-  active?: number;
-  critical?: number;
-  casesPerOneMillion?: number;
-  deathsPerOneMillion?: number;
-  tests?: number;
-  testsPerOneMillion?: number;
-  population?: number;
-  continent?: number;
-  oneCasePerPeople?: number;
-  oneDeathPerPeople?: number;
-  oneTestPerPeople?: number;
-  activePerOneMillion?: number;
-  recoveredPerOneMillion?: number;
-  criticalPerOneMillion?: number;
 }
 
 interface props {
@@ -53,15 +23,35 @@ interface props {
   // updateCountries: (total: number, today: number, update: string) => void;
 }
 
-// pass this a function to update the cards
-const Header: React.FC<props> = ({
+const MappButtonBar: React.FC<props> = ({
   countries,
   handleCountry,
   currentCountry,
   setMapState,
 }) => {
+  const [value, setValue] = useState<number>(0);
+
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    if (newValue === 0) {
+      history.push("/");
+    } else if (newValue === 2) {
+      history.push("/graph");
+    } else if (newValue === 1) {
+      history.push("/bar");
+    }
+    setValue(newValue);
+  };
+
   let history = useHistory();
-  const [mapViewIsTrue, setMapViewIsTrue] = useState(true);
+  let location = useLocation();
+
+  useEffect(() => {
+    if (value === 0) {
+      history.push("/");
+    }
+
+    console.log(location.pathname, " location");
+  }, []);
 
   const changeCountry = async (
     e: React.ChangeEvent<{
@@ -98,21 +88,43 @@ const Header: React.FC<props> = ({
       });
   };
 
-  const location = useLocation();
-  useEffect(() => {
-    console.log(location.pathname);
-    location.pathname === "/graph"
-      ? setMapViewIsTrue(false)
-      : setMapViewIsTrue(true);
-  }, [location]);
-
   return (
-    <div className="header">
-      <div className="header_lable">
-        <h2>Covid-19-Tracker</h2>
+    <div className="mappButtonBar">
+      <div className="mappButtonBar__left">
+        <Paper className="root">
+          <Tabs
+            value={value}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleChange}
+            aria-label="disabled tabs example"
+          >
+            <Tab className="mappButtonBar__left__firstBtn" label="Map" />
+            <Tab label="Bar Chart" />
+            <Tab className="mappButtonBar__left__lastBtn" label="Trending" />
+          </Tabs>
+        </Paper>
+
+        {/* <Button
+          className="app_middle__btn"
+          onClick={() => {
+            history.push("/");
+          }}
+        >
+          Map
+        </Button>
+        <Button className="app_middle__btn">Bar Chart</Button>
+        <Button
+          className="app_middle__btn"
+          onClick={() => {
+            history.push("/graph");
+          }}
+        >
+          Trending
+        </Button> */}
       </div>
 
-      <div className="header_dropdown">
+      {/* <div className="mappButtonBar__right">
         <FormControl>
           <Select
             labelId="label"
@@ -133,25 +145,9 @@ const Header: React.FC<props> = ({
               ))}
           </Select>
         </FormControl>
-      </div>
-
-      {/* <div className="header_option--button">
-        <Button
-          key="btn"
-          variant="outlined"
-          onClick={() => {
-            // console.log(history.location);
-            mapViewIsTrue === true ? history.push("/graph") : history.push("/");
-            setMapViewIsTrue(!mapViewIsTrue);
-            // history.push("/graph");
-          }}
-        >
-          {mapViewIsTrue === true ? "Show Graph" : "Show Map"}
-        </Button>
-
       </div> */}
     </div>
   );
 };
 
-export default Header;
+export default MappButtonBar;

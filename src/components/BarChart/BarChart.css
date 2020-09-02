@@ -1,15 +1,14 @@
+.barChart {
+  background-color: rgb(65, 63, 63);
+  border-radius: 8px;
+  width: 100% !important;
+  margin: 0 auto;
+}
+
 .chartjs-render-monitor {
   width: 63% !important;
   height: 100% !important;
   margin: 0 auto;
   /* background-color: white; */
   /* border-radius: 10px; */
-}
-
-.graph {
-  /* position: relative; */
-  background-color: rgb(65, 63, 63);
-  border-radius: 8px;
-  width: 100% !important;
-  margin: 0 auto;
 }
