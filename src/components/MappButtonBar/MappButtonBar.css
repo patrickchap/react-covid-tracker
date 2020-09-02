@@ -38,7 +38,7 @@
   border-radius: 3px !important;
 }
 
-.PrivateTabIndicator-colorPrimary-2 {
+.MuiTabs-indicator {
   background-color: red !important;
   width: 156px !important;
   margin-left: 2px !important;
