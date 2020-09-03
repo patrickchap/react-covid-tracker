@@ -8,7 +8,7 @@
   /* background-color: rgb(196, 191, 191); */
   height: 100%;
   display: flex;
-  flex-flow: column;
+  /* flex-flow: column; */
 }
 .app_body {
   /* align-content: center; */
@@ -22,27 +22,62 @@
   min-height: 100%;
 }
 
-.app_bottom {
-  /* background-color: white;
-  padding: 10px;
-  height: 350px;
-  margin-left: 5px;
-  margin-right: 5px;
-  border-radius: 10px; */
-}
-
 .app_map {
   /* background-color: white; */
+  display: flex;
   padding: 10px;
   height: 380px;
   /* height: 20em; */
-  flex: 1;
+  /* flex: 1; */
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 10px;
-  background-color: rgb(65, 63, 63) !important;
+  background-color: rgb(124, 39, 39) !important;
 }
 
 .app__middle {
   margin-left: 5px;
+}
+
+.app__map__left {
+  flex: 0.5;
+}
+
+.app__map__right {
+  flex: 0.5;
+  max-height: 100%;
+}
+
+.app__map__right {
+  display: flex;
+  flex-direction: column;
+  /* flex: 1; */
+}
+
+@media screen and (min-width: 1800px) {
+  .app_map {
+    height: 600px;
+    background-color: rgb(124, 39, 39) !important;
+  }
+
+  .chartjs-render-monitor {
+    height: 300px !important;
+  }
+}
+
+@media screen and (max-width: 1800px) {
+  .chartjs-render-monitor {
+    height: 190px !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .app_infoBar {
+    flex-direction: column;
+  }
+
+  .app_map {
+    flex-direction: column;
+    height: 100vh;
+  }
 }

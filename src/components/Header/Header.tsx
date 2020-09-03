@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { FormControl, Select, MenuItem, Button } from "@material-ui/core";
+import React from "react";
+import { FormControl, Select, MenuItem } from "@material-ui/core";
 import "./Header.css";
-import { useHistory, useLocation } from "react-router-dom";
 
 interface mapstate {
   location: {
@@ -60,9 +59,6 @@ const Header: React.FC<props> = ({
   currentCountry,
   setMapState,
 }) => {
-  let history = useHistory();
-  const [mapViewIsTrue, setMapViewIsTrue] = useState(true);
-
   const changeCountry = async (
     e: React.ChangeEvent<{
       name?: string | undefined;
@@ -97,14 +93,6 @@ const Header: React.FC<props> = ({
         });
       });
   };
-
-  const location = useLocation();
-  useEffect(() => {
-    console.log(location.pathname);
-    location.pathname === "/graph"
-      ? setMapViewIsTrue(false)
-      : setMapViewIsTrue(true);
-  }, [location]);
 
   return (
     <div className="header">

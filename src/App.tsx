@@ -5,9 +5,6 @@ import Header from "./components/Header/Header";
 import InfoBar from "./components/InfoBar/InfoBar";
 import MapLeaflet from "./components/Map/MapLeaflet";
 import Graph from "./components/Graph/Graph";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import MappButtonBar from "./components/MappButtonBar/MappButtonBar";
 import BarChart from "./components/BarChart/BarChart";
 // import { Button } from "@chakra-ui/core";
 
@@ -160,95 +157,84 @@ const App: React.FC = () => {
   }, [currentCountry]);
 
   return (
-    <Router>
-      <div className="app">
-        {/* <h2 style={{ marginLeft: "15px" }}>Covid-19-Tracker</h2> */}
-        <div className="app_body">
-          <Header
-            countries={countries}
-            handleCountry={handleCountry}
-            currentCountry={currentCountry}
-            setMapState={setMapState}
-          />
+    <div className="app">
+      {/* <h2 style={{ marginLeft: "15px" }}>Covid-19-Tracker</h2> */}
+      <div className="app_body">
+        <Header
+          countries={countries}
+          handleCountry={handleCountry}
+          currentCountry={currentCountry}
+          setMapState={setMapState}
+        />
 
-          <div className="app_infoBar">
-            {cases && (
-              <InfoBar
-                boxName="Cases"
-                today={cases.dailyCases ? cases.dailyCases : 0}
-                total={cases.totalCases ? cases.totalCases : 0}
-                data={"cases"}
-                setShowData={handleSetShowData}
-                setInfoBarClicked={setInfoBarClicked}
-                infoBarClicked={infoBarClicked}
-              />
-            )}
-            {recoveries && (
-              <InfoBar
-                boxName="Recovered"
-                today={recoveries.dailyCases ? recoveries.dailyCases : 0}
-                total={recoveries.totalCases ? recoveries.totalCases : 0}
-                data={"recovered"}
-                setShowData={handleSetShowData}
-                setInfoBarClicked={setInfoBarClicked}
-                infoBarClicked={infoBarClicked}
-              />
-            )}
-
-            {deaths && (
-              <InfoBar
-                boxName="Deaths"
-                today={deaths.dailyCases ? deaths.dailyCases : 0}
-                total={deaths.totalCases ? deaths.totalCases : 0}
-                data={"deaths"}
-                setShowData={handleSetShowData}
-                setInfoBarClicked={setInfoBarClicked}
-                infoBarClicked={infoBarClicked}
-              />
-            )}
-          </div>
-          <div className="app__middle">
-            {/* for show .... */}
-            <MappButtonBar
-              countries={countries}
-              handleCountry={handleCountry}
-              currentCountry={currentCountry}
-              setMapState={setMapState}
+        <div className="app_infoBar">
+          {cases && (
+            <InfoBar
+              boxName="Cases"
+              today={cases.dailyCases ? cases.dailyCases : 0}
+              total={cases.totalCases ? cases.totalCases : 0}
+              data={"cases"}
+              setShowData={handleSetShowData}
+              setInfoBarClicked={setInfoBarClicked}
+              infoBarClicked={infoBarClicked}
             />
-          </div>
-          <div className="app_bottom">
-            {/* <Map /> */}
-            <Switch>
-              <Route path="/graph">
-                <Graph
-                  currentCountry={currentCountry}
-                  infoBarClicked={infoBarClicked}
-                  setInfoBarClicked={setInfoBarClicked}
-                />
-              </Route>
-              <Route path="/bar">
-                <BarChart
-                  totalCases={cases?.totalCases ? cases.totalCases : 0}
-                  totalRecoveries={
-                    recoveries?.totalCases ? recoveries.totalCases : 0
-                  }
-                  totalDeaths={deaths?.totalCases ? deaths.totalCases : 0}
-                />
-              </Route>
-              <Route path="/">
-                <div className="app_map">
-                  <MapLeaflet
-                    countriesMap={countriesMap}
-                    data={showData}
-                    mapState={mapState}
-                  />
-                </div>
-              </Route>
-            </Switch>
+          )}
+          {recoveries && (
+            <InfoBar
+              boxName="Recovered"
+              today={recoveries.dailyCases ? recoveries.dailyCases : 0}
+              total={recoveries.totalCases ? recoveries.totalCases : 0}
+              data={"recovered"}
+              setShowData={handleSetShowData}
+              setInfoBarClicked={setInfoBarClicked}
+              infoBarClicked={infoBarClicked}
+            />
+          )}
+
+          {deaths && (
+            <InfoBar
+              boxName="Deaths"
+              today={deaths.dailyCases ? deaths.dailyCases : 0}
+              total={deaths.totalCases ? deaths.totalCases : 0}
+              data={"deaths"}
+              setShowData={handleSetShowData}
+              setInfoBarClicked={setInfoBarClicked}
+              infoBarClicked={infoBarClicked}
+            />
+          )}
+        </div>
+        <div className="app_bottom">
+          <div className="app_map">
+            <div className="app__map__left">
+              <MapLeaflet
+                countriesMap={countriesMap}
+                data={showData}
+                mapState={mapState}
+              />
+            </div>
+            <div className="app__map__right">
+              <BarChart
+                totalCases={cases?.totalCases ? cases.totalCases : 0}
+                totalRecoveries={
+                  recoveries?.totalCases ? recoveries.totalCases : 0
+                }
+                totalDeaths={deaths?.totalCases ? deaths.totalCases : 0}
+              />
+              <Graph
+                currentCountry={currentCountry}
+                infoBarClicked={infoBarClicked}
+                setInfoBarClicked={setInfoBarClicked}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </Router>
+
+      {/* <div className="app__sideBar">
+        <h1>right</h1>
+      </div>
+       */}
+    </div>
   );
 };
 

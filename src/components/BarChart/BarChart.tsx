@@ -3,6 +3,12 @@ import { Bar, ChartData } from "react-chartjs-2";
 import "./BarChart.css";
 
 const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  legend: {
+    display: false,
+  },
+
   scales: {
     xAxes: [
       {
@@ -46,7 +52,7 @@ const BarChart: React.FC<props> = ({
       labels: ["Cases", "Recovered", "Deaths"],
       datasets: [
         {
-          // label: "Rainfall",
+          // label: "",
           backgroundColor: [color.Red, color.Green, color.Red],
           borderColor: [color.RedOutline, color.GreenOutline, color.RedOutline],
           borderWidth: 2,
@@ -58,6 +64,7 @@ const BarChart: React.FC<props> = ({
 
   const [data, setData] = useState<ChartData<any>>({
     labels: ["Cases", "Recovered", "Deaths"],
+
     datasets: [
       {
         // label: "Rainfall",

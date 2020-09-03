@@ -13,7 +13,7 @@ interface dailyCases {
   value: number;
 }
 
-const options = { responsive: true, maintainAspectRatio: true };
+const options = { responsive: true, maintainAspectRatio: false };
 
 const color = {
   Red: "rgba(235, 26, 26,0.2)",
@@ -71,6 +71,7 @@ const Table: React.FC<props> = ({
             lastValue = Number(value);
           }
           setData(formatData(chartData, chartLabels, infoBarClicked));
+          setIsData(true);
           // console.log("charData >>> ", chartdata);
           // return formatData(chartData, chartLabels);
         });
@@ -78,6 +79,7 @@ const Table: React.FC<props> = ({
 
     // check response code
     const fetchCountry = async (url: string) => {
+      // console.log("use effect");
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();

@@ -1,8 +1,10 @@
 .chartjs-render-monitor {
   width: 63% !important;
-  height: 100% !important;
+  /* height: 100% !important; */
   margin: 0 auto;
-  /* background-color: white; */
+  flex: 0.5 !important;
+  height: 190px;
+
   /* border-radius: 10px; */
 }
 
