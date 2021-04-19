@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@material-ui/core";
 import "./InfoBar.css";
-// interface InfoNumbers {
-//   totalCases?: number | null;
-//   dailyCases?: number | null;
-// }
+import NumberFormat from "react-number-format";
 
 interface Props {
   boxName: string;
@@ -14,8 +11,6 @@ interface Props {
   setShowData: (data: string) => void;
   setInfoBarClicked: React.Dispatch<React.SetStateAction<string>>;
   infoBarClicked: string;
-
-  //   cases: InfoNumbers;
 }
 
 const InfoBar: React.FC<Props> = ({
@@ -37,7 +32,6 @@ const InfoBar: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    // console.log(infoBarClicked, " ", boxName);
     if (infoBarClicked === boxName && boxName === "Recovered") {
       setClassname("infoBar-clicked-green");
     } else if (infoBarClicked === boxName) {
@@ -57,8 +51,22 @@ const InfoBar: React.FC<Props> = ({
     >
       <CardContent>
         <h3>{`${boxName}`}</h3>
-        <h5>{`Daily ${boxName}: ${today}`}</h5>
-        <h4>{`Total ${boxName} ${total}`}</h4>
+        <h4>
+          {`Daily ${boxName}: `}
+          <NumberFormat
+            value={today}
+            displayType={"text"}
+            thousandSeparator={true}
+          />
+        </h4>
+        <h4>
+          {`Total ${boxName}: `}
+          <NumberFormat
+            value={today}
+            displayType={"text"}
+            thousandSeparator={true}
+          />
+        </h4>
       </CardContent>
     </Card>
   );

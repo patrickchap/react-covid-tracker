@@ -3,12 +3,6 @@ import "./MapLeaflet.css";
 import { Map as LeafletMap, TileLayer, Circle, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-// type options = {
-//   cases: number;
-//   recoveries: number;
-//   deaths: number;
-// };
-
 interface countryCall {
   updated?: number;
   country?: string;
@@ -42,10 +36,6 @@ interface countryCall {
   criticalPerOneMillion?: number;
 }
 
-// const location = {
-//   lat: 25.185059,
-//   lng: -38.202698,
-// };
 interface mapstate {
   location: {
     lat: number;
@@ -58,8 +48,6 @@ interface props {
   countriesMap: Array<object>;
   data: string;
   mapState: mapstate;
-
-  //pass lat: , long and zoon
 }
 function hasKey<O>(obj: O, key: keyof any): key is keyof O {
   return key in obj;
@@ -78,9 +66,6 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
         <TileLayer
           attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
           url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
-
-          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          // attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         {countriesMap.map((country, indx) => {
           let c: countryCall = country;
@@ -90,7 +75,6 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
             let color: any = data === "recovered" ? "#1aff00" : "#eb1a1a";
             i = i + Math.random();
 
-            // console.log(i);
             return (
               c.countryInfo?.lat &&
               c.countryInfo?.long &&
@@ -101,7 +85,7 @@ const MapLeaflet: React.FC<props> = ({ countriesMap, data, mapState }) => {
                   <Circle
                     key={i++}
                     center={[c.countryInfo.lat, c.countryInfo.long]}
-                    radius={Math.sqrt(r) * 500}
+                    radius={Math.sqrt(r) * 200}
                     color={color}
                   >
                     <Popup key={countriesMap.length + i}>
