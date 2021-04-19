@@ -62,7 +62,7 @@ const InfoBar: React.FC<Props> = ({
         <h4>
           {`Total ${boxName}: `}
           <NumberFormat
-            value={today}
+            value={total}
             displayType={"text"}
             thousandSeparator={true}
           />
